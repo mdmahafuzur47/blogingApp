@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/header.ejs") %>
+    <title>Details page</title>
+  </head>
+  <body class="bg-white border-gray-200 dark:bg-gray-900 dark:text-white">
+    <%- include("../partials/navbar.ejs") %>
+
+    <div class="max-w-screen-xl mx-auto mt-10">
+      <% if (locals.blog) { %>
+      <div>
+        <h1><%= blog.title %></h1>
+        <img style="width: 800px" src="<%= blog.blogPhoto %>" alt="blog" />
+        <p><%= blog.content %></p>
+      </div>
+
+      <div class="mt-10">
+        <h1 class="text-2xl font-semibold">Comment (<%= comments.length %>)</h1>
+      </div>
+
+      <% if (locals.comments) { %> <% comments.forEach(comment => { %>
+      <div class="mt-5">
+        <div class="flex item-center gap-2">
+          <img
+            style="width: 30px; height: 30px; border-radius: 100%"
+            src="<%= comment.createdBy.profileImg %>"
+            alt="blog"
+          />
+          <p class="text-xl font-semibold"><%= comment.createdBy.name %></p>
+        </div>
+        <p class="text-md mb-5  mt-1 font-medium"><%= comment.comment %></p>
+      </div>
+      <% }) %> <% } %> <% if (locals.user) { %>
+      <form class="mt-5" action="/blog/<%= blog._id %>/comment" method="POST">
+        <textarea
+          id="message"
+          rows="4"
+          name="comment"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Write your thoughts here..."
+        ></textarea>
+        <button
+          type="submit"
+          class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add Comment
+        </button>
+        <% } %> <% } %>
+      </form>
+    </div>
+
+    <%- include("../partials/scripts.ejs") %>
+  </body>
+</html>
